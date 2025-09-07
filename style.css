@@ -1,10 +1,16 @@
 
-
-
-body {
-    font-family: 'DM Sans', sans-serif;
+:root {
+    --font-base: 'DM Sans', sans-serif;
+    --font-heading: 'Bricolage Grotesque', sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-bold: 700;
   }
+
   
+body {
+    font-family: var(--font-base);
+    font-weight: var(--font-weight-regular);
+  }
 .attribution { 
     font-size: 11px; 
     text-align: center; 
