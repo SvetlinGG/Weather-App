@@ -2,15 +2,21 @@
 :root {
     --font-base: 'DM Sans', sans-serif;
     --font-heading: 'Bricolage Grotesque', sans-serif;
-    --font-weight-regular: 400;
-    --font-weight-bold: 700;
-  }
 
-  
+    /* Font weights for DM Sans */
+    --font-weight-light: 300;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Font style */
+    --font-weight-semibold-italic: 600; /* Use with font-style: italic */
+}
+
 body {
     font-family: var(--font-base);
     font-weight: var(--font-weight-regular);
-  }
+}
 .attribution { 
     font-size: 11px; 
     text-align: center; 
