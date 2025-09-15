@@ -1,10 +1,10 @@
 
 
-// DOM helpers
+
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-// State
+
 const state = {
   units: localStorage.getItem("units") || "metric", // metric | imperial
   place: JSON.parse(localStorage.getItem("place") || "null") || {
@@ -17,7 +17,7 @@ const state = {
   selectedDayIndex: 0,
 };
 
-// API builders
+
 const API = {
   geocode: (q) =>
     `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=5&language=en&format=json`,
@@ -48,31 +48,33 @@ const API = {
   },
 };
 
-// Utils
+
 const debounce = (fn, delay=300) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay);} };
 const getJSON = async (url) => { const r = await fetch(url); if(!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); };
 
-// Weather code → emoji (Open-Meteo WMO codes)
+
 function iconFor(code){
-  if([0].includes(code)) return "☀️";
-  if([1].includes(code)) return "🌤️";
-  if([2].includes(code)) return "⛅";
-  if([3].includes(code)) return "☁️";
-  if([45,48].includes(code)) return "🌫️";
-  if([51,53,55,56,57].includes(code)) return "🌦️";
-  if([61,63,65,80,81,82].includes(code)) return "🌧️";
-  if([66,67].includes(code)) return "🌧️";
-  if([71,73,75,77,85,86].includes(code)) return "❄️";
-  if([95,96,99].includes(code)) return "⛈️";
+  if ([0].includes(code)) return "☀️";
+  if ([1].includes(code)) return "🌤️";
+  if ([2].includes(code)) return "⛅";
+  if ([3].includes(code)) return "☁️";
+  if ([45,48].includes(code)) return "🌫️";
+  if ([51,53,55,56,57].includes(code)) return "🌦️";
+  if ([61,63,65,80,81,82].includes(code)) return "🌧️";
+  if ([66,67].includes(code)) return "🌧️";
+  if ([71,73,75,77,85,86].includes(code)) return "❄️";
+  if ([95,96,99].includes(code)) return "⛈️";
   return "🌡️";
 }
 
-// Formatters
+
 const fmtDate = (iso) => new Date(iso).toLocaleDateString(undefined, { weekday:"long", month:"short", day:"numeric" });
 const fmtDay  = (iso) => new Date(iso).toLocaleDateString(undefined, { weekday:"short" });
 const fmtTime = (iso) => new Date(iso).toLocaleTimeString([], { hour:"numeric" });
 
-function setStatus(msg){ $("#status").textContent = msg || ""; }
+function setStatus(msg){ 
+  $("#status").textContent = msg || ""; 
+}
 function setUnitsUI(){
   $("#tempUnit").textContent   = state.units === "metric" ? "°C" : "°F";
   $("#feelsUnit").textContent  = state.units === "metric" ? "°C" : "°F";
@@ -81,7 +83,7 @@ function setUnitsUI(){
   $("#unitToggle").value = state.units;
 }
 
-// Renderers
+
 function renderCurrent(){
   const { current } = state.data;
   $("#place").textContent = `${state.place.name}${state.place.country ? ", " + state.place.country : ""}`;
@@ -109,7 +111,7 @@ function renderDaily(){
     ul.appendChild(li);
   });
 
-  // Day picker for hourly
+  
   const sel = $("#dayPicker");
   sel.innerHTML = d.time.map((t, i)=>`<option value="${i}">${fmtDay(t)}</option>`).join("");
   sel.value = state.selectedDayIndex;
@@ -118,7 +120,7 @@ function renderDaily(){
 function renderHourly(){
   const list = $("#hourlyList");
   const { hourly, daily } = state.data;
-  const dayISO = daily.time[state.selectedDayIndex]; // YYYY-MM-DD
+  const dayISO = daily.time[state.selectedDayIndex]; 
   list.innerHTML = "";
 
   // Filter hourly by selected day
@@ -143,7 +145,7 @@ function renderAll(){
   renderHourly();
 }
 
-// Data loading
+
 async function loadForecast(place){
   setStatus("Loading…");
   try{
@@ -160,7 +162,7 @@ async function loadForecast(place){
   }
 }
 
-// Search + suggestions
+
 const suggest = debounce(async (q) => {
   const menu = $("#suggestions");
   if(!q.trim()){ menu.style.display = "none"; menu.innerHTML = ""; return; }
@@ -178,7 +180,7 @@ const suggest = debounce(async (q) => {
   }
 }, 350);
 
-// Events
+
 $("#searchInput").addEventListener("input", (e)=> suggest(e.target.value));
 $("#suggestions").addEventListener("click", (e)=>{
   const li = e.target.closest("li"); if(!li) return;
@@ -224,7 +226,7 @@ $("#geoBtn").addEventListener("click", ()=>{
   setStatus("Locating…");
   navigator.geolocation.getCurrentPosition(async ({coords})=>{
     try{
-      // Try reverse geocoding for name; fallback to coords
+      
       let name = "My location", country = "";
       try{
         const rev = await getJSON(API.reverse(coords.latitude, coords.longitude));
@@ -236,7 +238,7 @@ $("#geoBtn").addEventListener("click", ()=>{
   }, ()=> setStatus("Permission denied for location."));
 });
 
-// Init
+
 document.addEventListener("DOMContentLoaded", ()=>{
   setUnitsUI();
   $("#searchInput").value = "";
