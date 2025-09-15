@@ -10,6 +10,7 @@
     --shadow-1: 0 10px 30px rgba(0,0,0,.35);
     --shadow-2: 0 6px 18px rgba(0,0,0,.25);
     --maxw: 1120px;
+    --font-family-DM-Sans: "DM Sans", system-ui, sans-serif; font-optical-sizing: auto;
 }
 
 * {
@@ -20,7 +21,7 @@ html, body {
 }
 body {
     margin: 0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    font-family: var(--font-family-DM-Sans);
     color: var(--text); 
     background: var(--bg); 
     line-height:1.45;
