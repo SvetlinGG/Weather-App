@@ -84,9 +84,7 @@ p {
 .brand__logo {
     font-size: 22px;
 }
-.brand__name {
-    font-weight: 700;
-}
+
 .header__right {
     display: flex;
     align-items: center;
