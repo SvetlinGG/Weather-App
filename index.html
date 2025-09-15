@@ -1,82 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  <link rel="stylesheet" href="/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700&display=swap" rel="stylesheet">
-
-  <title>Frontend Mentor | Weather app</title>
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather Now</title>
+  <meta name="description" content="Weather app with Open-Meteo API (vanilla JS)" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌞</text></svg>">
+  <link rel="preconnect" href="https://api.open-meteo.com">
+  <link rel="preconnect" href="https://geocoding-api.open-meteo.com">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="brand">
+      <span class="brand__logo" aria-hidden="true">🌞</span>
+      <strong class="brand__name">Weather Now</strong>
+    </div>
 
-    <header>
-        <div class="nav-bar">
-            <div class="logo"><img src="/assets/images/logo.svg"></div>
-            <button class="accordion-button" onclick="toggleAccordion()"><img src="/assets/images/icon-units.svg">Units</button>
-            <div class="accordion-content" id="accordionContent">
-                <ul>
-                  <li>Weight: kg</li>
-                  <li>Volume: L</li>
-                  <li>Length: m</li>
-                  <li>Temperature: °C</li>
-                </ul>
-              </div>
+    <div class="header__right">
+      <button id="geoBtn" class="btn btn--ghost" title="Use my location">📍 Use my location</button>
+      <label class="units">
+        <span class="units__label">Units</span>
+        <select id="unitToggle" class="select">
+          <option value="metric" selected>Metric (°C, km/h, mm)</option>
+          <option value="imperial">Imperial (°F, mph, in)</option>
+        </select>
+      </label>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container" role="main">
+    <h1 class="page-title">How’s the sky looking today?</h1>
+
+    <!-- Search -->
+    <form id="searchForm" class="search" role="search" autocomplete="off">
+      <label for="searchInput" class="sr-only">Search for a place</label>
+      <input id="searchInput" name="q" class="search__input" type="search" placeholder="Search for a place…" />
+      <button class="btn btn--primary" type="submit">Search</button>
+      <ul id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions"></ul>
+    </form>
+
+    <section class="layout">
+      <!-- Left column -->
+      <section class="left">
+        <!-- Current card -->
+        <article id="currentCard" class="card card--hero" aria-live="polite">
+          <header class="hero__top">
+            <div>
+              <h2 id="place" class="hero__city">—</h2>
+              <p id="date" class="hero__date">—</p>
             </div>
-            
-        </div>
-    </header>
+            <div class="hero__icon" id="currentIcon" aria-hidden="true">☀️</div>
+          </header>
+          <div class="hero__temp">
+            <span id="temp" class="hero__temp-value">—</span>
+            <span id="tempUnit" class="hero__temp-unit">°</span>
+          </div>
+        </article>
 
-  <!-- Units -->
+        <!-- Stat tiles -->
+        <section class="stats" aria-label="Current conditions">
+          <div class="stat card"><h3>Feels Like</h3><p><span id="feelsLike">—</span><span class="unit" id="feelsUnit">°</span></p></div>
+          <div class="stat card"><h3>Humidity</h3><p><span id="humidity">—</span><span class="unit">%</span></p></div>
+          <div class="stat card"><h3>Wind</h3><p><span id="wind">—</span> <span class="unit" id="windUnit">km/h</span></p></div>
+          <div class="stat card"><h3>Precipitation</h3><p><span id="precip">—</span> <span class="unit" id="precipUnit">mm</span></p></div>
+        </section>
 
-  Switch to Imperial/Metric
+        <!-- Daily -->
+        <section class="daily" aria-label="Daily forecast">
+          <h2 class="section-title">Daily forecast</h2>
+          <ul id="dailyList" class="daily__list" role="list"></ul>
+        </section>
+      </section>
 
-  Temperature
+      <!-- Right column: Hourly -->
+      <aside class="right card" aria-label="Hourly forecast">
+        <header class="right__header">
+          <h2 class="section-title">Hourly forecast</h2>
+          <select id="dayPicker" class="select" aria-label="Select day for hourly forecast"></select>
+        </header>
+        <ol id="hourlyList" class="hourly__list"></ol>
+      </aside>
+    </section>
 
-  Celsius (°C)
-  Fahrenheit (°F)
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
 
-  Wind Speed
+  <footer class="footer" role="contentinfo">
+    <small>Powered by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. No API key required.</small>
+  </footer>
 
-  km/h
-  mph
-
-  Precipitation
-
-  Millimeters (mm)
-  Inches (in)
-
-  How's the sky looking today?
-
-  Search for a city, e.g., New York
-  Search
-
-  Feels like
-  <!-- Insert temperature here -->
-
-  Humidity
-  <!-- Insert humidity here -->
-
-  Wind
-  <!-- Insert wind here -->   
-  
-  Precipitation
-  <!-- Insert precipitation here -->
-
-  Daily forecast
-  <!-- Insert daily forecast for the next 7 days here -->
-
-  Hourly forecast
-  <!-- Insert hourly forecast for the selected day here -->
-
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
-    Coded by <a href="#">Svetlin Garabedyan</a>.
-  </div>
-  <script src="/script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
