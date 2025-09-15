@@ -1,4 +1,4 @@
-// ===== Weather Now (vanilla JS + Open-Meteo) =====
+
 
 // DOM helpers
 const $  = (sel, root = document) => root.querySelector(sel);
