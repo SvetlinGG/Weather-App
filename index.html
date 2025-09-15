@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header Section -->
   <header class="header" role="banner">
     <div class="brand">
       <span class="brand__logo" aria-hidden="true">🌞</span>
@@ -30,11 +30,11 @@
     </div>
   </header>
 
-  <!-- Main -->
+  <!-- Main Section -->
   <main class="container" role="main">
     <h1 class="page-title">How’s the sky looking today?</h1>
 
-    <!-- Search -->
+    <!-- Search Area-->
     <form id="searchForm" class="search" role="search" autocomplete="off">
       <label for="searchInput" class="sr-only">Search for a place</label>
       <input id="searchInput" name="q" class="search__input" type="search" placeholder="Search for a place…" />
@@ -60,7 +60,7 @@
           </div>
         </article>
 
-        <!-- Stat tiles -->
+        <!-- Stat Tiles Section-->
         <section class="stats" aria-label="Current conditions">
           <div class="stat card"><h3>Feels Like</h3><p><span id="feelsLike">—</span><span class="unit" id="feelsUnit">°</span></p></div>
           <div class="stat card"><h3>Humidity</h3><p><span id="humidity">—</span><span class="unit">%</span></p></div>
@@ -68,7 +68,7 @@
           <div class="stat card"><h3>Precipitation</h3><p><span id="precip">—</span> <span class="unit" id="precipUnit">mm</span></p></div>
         </section>
 
-        <!-- Daily -->
+        <!-- Daily Section-->
         <section class="daily" aria-label="Daily forecast">
           <h2 class="section-title">Daily forecast</h2>
           <ul id="dailyList" class="daily__list" role="list"></ul>
