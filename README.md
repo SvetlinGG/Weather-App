@@ -388,8 +388,8 @@ You can keep a **single `css-folder`** or split by sections with `@layer`. Examp
 ## Deployment
 
 ### GitHub Pages
-1. Create a repo and push `index.html`, `css`, `app.js`.  
-2. Settings → Pages → Deploy from `main`, folder `css`.  
+1. Create a repo and push `index.html`, `index.css`, `app.js`.  
+2. Settings → Pages → Deploy from `main`.  
 3. Open the provided URL.
 
 ### Netlify
