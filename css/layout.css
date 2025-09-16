@@ -1,0 +1,24 @@
+
+.layout {
+    display: grid;
+    grid-template-columns: 1.3fr .9fr;
+    gap: 18px;
+}
+
+.left {
+    display: grid;
+    gap: 16px;
+}
+.right {
+    padding: 14px;
+}
+
+
+@media (max-width: 980px){
+  .layout {
+    grid-template-columns: 1fr;
+}
+  .right {
+    order: 2;
+}
+}
