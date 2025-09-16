@@ -1,0 +1,85 @@
+* {
+    box-sizing:border-box
+}
+html, body {
+    height: 100%
+}
+body {
+  margin: 0; 
+  line-height: 1.45;
+  font-family: var(--font-body);
+  color: var(--text); 
+  background: var(--bg);
+}
+
+h1, h2, h3 {
+    margin: 0 0 .4rem
+}
+
+p {
+    margin: 0.25rem 0
+}
+
+a {
+    color: var(--text); 
+    text-decoration: none
+}
+
+img {
+    display: block; 
+    max-width: 100%
+}
+
+.sr-only {
+    position: absolute!important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0)
+}
+.container { 
+    max-width: var(--maxw);
+    padding: 24px 20px; 
+    margin: 0 auto
+}
+
+.page-title {
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: clamp(26px, 3.6vw, 44px);
+  margin: 20px 0 22px;
+}
+
+.btn {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--card-2);
+    color: var(--text);
+    box-shadow: var(--shadow-2)
+}
+
+.btn--primary {
+    background: var(--accent);
+    font-weight: 600;
+}
+
+.btn--ghost { 
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.18)
+}
+.select {
+    background: var(--card-2);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+.card {
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-1);
+    border:1px solid rgba(255, 255, 255, 0.06);
+}
