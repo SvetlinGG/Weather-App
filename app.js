@@ -6,7 +6,7 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 
 const state = {
-  units: localStorage.getItem("units") || "metric", // metric | imperial
+  units: localStorage.getItem("units") || "metric", 
   place: JSON.parse(localStorage.getItem("place") || "null") || {
     name: "Berlin",
     country: "DE",
@@ -123,7 +123,7 @@ function renderHourly(){
   const dayISO = daily.time[state.selectedDayIndex]; 
   list.innerHTML = "";
 
-  // Filter hourly by selected day
+
   hourly.time.forEach((ts, idx) => {
     if (ts.startsWith(dayISO)) {
       const li = document.createElement("li");
@@ -165,7 +165,10 @@ async function loadForecast(place){
 
 const suggest = debounce(async (q) => {
   const menu = $("#suggestions");
-  if(!q.trim()){ menu.style.display = "none"; menu.innerHTML = ""; return; }
+  if(!q.trim()){ 
+    menu.style.display = "none"; 
+    menu.innerHTML = ""; return; 
+  }
   try{
     const res = await getJSON(API.geocode(q));
     const results = (res.results || []).slice(0,5);
