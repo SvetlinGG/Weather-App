@@ -1,7 +1,7 @@
 # Weather-App
 
 A clean, responsive weather application built with **HTML + CSS + vanilla JavaScript**, powered by the **Open‑Meteo API** (no API key required). It supports search with suggestions, geolocation, metric/imperial units, a rich current conditions card, a 7‑day forecast, and an **hourly view for the next 12 hours from “now.”**
-
+[link][https://weather-app-sgg.netlify.app/]
 ---
 
 ## Table of Contents
