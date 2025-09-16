@@ -1,0 +1,15 @@
+
+.status{
+    margin: 14px auto 0;
+    text-align: center;
+    color: var(--muted);
+}
+.footer{
+    max-width: var(--maxw);
+    margin: 24px auto 36px;
+    padding: 0 20px;
+    color:
+    var(--muted)}
+.is-hidden{
+    display: none!important;
+}
