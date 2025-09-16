@@ -37,7 +37,7 @@ link: https://weather-app-sgg.netlify.app/
 - 🕛 **Hourly forecast**: **next 12 hours from now** (rolling window).  
 - 🔁 **Units toggle**: Metric ↔ Imperial (°C/°F, km/h ↔ mph, mm ↔ in).  
 - 📱 **Responsive layout**, keyboard‑friendly, ARIA labels.  
-- 🧱 **No framework**, no build step, **no API key**.
+
 
 ---
 
@@ -61,7 +61,7 @@ link: https://weather-app-sgg.netlify.app/
 - **Current card:** city + date + icon + large temperature.  
 - **Stats tiles:** feels like, humidity, wind, precipitation.  
 - **Daily section:** seven compact day tiles.  
-- **Hourly section:** list of the **next 12 future hours** with time, icon, temp.
+- **Hourly section:** list of the **next 24 future hours** with time, icon, temp.
 
 ---
 
@@ -72,7 +72,7 @@ Single‑page, static app:
 ```
 weather-app/
 ├─ index.html        # semantic markup & UI hooks
-├─ css        # tokens, layout, components, responsive
+├─ css               # tokens, layout, components, responsive
 └─ app.js            # logic (state, fetch, render, events, helpers)
 ```
 
@@ -85,9 +85,9 @@ weather-app/
 1. **Download/clone** this folder.  
 2. Open `index.html` directly in a browser
    
-3. Visit `http://localhost:5173`.
+3. Visit https://weather-app-sgg.netlify.app/
 
-No API keys. No build tools. Just works.
+
 
 ---
 
@@ -118,9 +118,9 @@ No API keys. No build tools. Just works.
 
 - Iterate `daily.time` → day name (Mon/Tue…), icon, max/min.
 
-### 5) Render Hourly (Next 12 Hours)
+### 5) Render Hourly (Next 24 Hours)
 
-- From `hourly.time`, take the **first 12 timestamps in the future** (≥ now).  
+- From `hourly.time`, take the **first 24 timestamps in the future** (≥ now).  
 - Render time, icon, temperature.
 
 ### 6) Interactions
@@ -297,177 +297,11 @@ function renderCurrent(){
   $("#precip").textContent    = (current.precipitation ?? 0).toFixed(1).replace(/\.0$/, "");
 }
 
-function renderDaily(){
-  const ul = $("#dailyList");
-  const d  = state.data.daily;
-  ul.innerHTML = "";
-  d.time.forEach((date, i) => {
-    const li = document.createElement("li");
-    li.className = "daily__item";
-    li.innerHTML = `
-      <div class="daily__day">${new Date(date).toLocaleDateString(undefined,{weekday:"short"})}</div>
-      <div class="daily__icon" aria-hidden="true">${iconFor(d.weather_code[i])}</div>
-      <div class="daily__temps"><span>${Math.round(d.temperature_2m_max[i])}°</span> <small>${Math.round(d.temperature_2m_min[i])}°</small></div>
-    `;
-    ul.appendChild(li);
-  });
-}
 
-/* NEXT 12 HOURS FROM NOW */
-function renderHourly(){
-  const list = $("#hourlyList");
-  const { hourly } = state.data || {};
-  if (!hourly || !hourly.time) { list.innerHTML = ""; return; }
-
-  const now = Date.now();
-  const picked = [];
-  for (let i = 0; i < hourly.time.length && picked.length < 12; i++) {
-    const ts = new Date(hourly.time[i]).getTime();
-    if (ts >= now) {
-      picked.push({
-        time: hourly.time[i],
-        code: hourly.weather_code[i],
-        temp: hourly.temperature_2m[i]
-      });
-    }
-  }
-  if (picked.length === 0) { // fallback
-    const n = hourly.time.length;
-    for (let i = Math.max(0, n - 12); i < n; i++) {
-      picked.push({
-        time: hourly.time[i],
-        code: hourly.weather_code[i],
-        temp: hourly.temperature_2m[i]
-      });
-    }
-  }
-  list.innerHTML = picked.map(it => `
-    <li class="hourly__item">
-      <span class="hourly__time">${fmtTime(it.time)}</span>
-      <span class="hourly__icon" aria-hidden="true">${iconFor(it.code)}</span>
-      <span class="hourly__temp">${Math.round(it.temp)}°</span>
-    </li>
-  `).join("");
-}
-
-function renderAll(){
-  setUnitsUI();
-  renderCurrent();
-  renderDaily();
-  renderHourly();
-}
-```
-
-### Events & Data Loading
-
-```js
-const debounce = (fn, delay=300) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay);} };
-const getJSON = async (url) => { const r = await fetch(url); if(!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); };
-
-async function loadForecast(place){
-  setStatus("Loading…");
-  try{
-    const url = API.forecast(place.latitude, place.longitude);
-    const data = await getJSON(url);
-    state.data = data;
-    state.place = place;
-    localStorage.setItem("place", JSON.stringify(place));
-    renderAll();
-    setStatus("");
-  }catch(err){
-    console.error(err);
-    setStatus("Could not load forecast. Please try again.");
-  }
-}
-
-// Search suggestions
-const suggest = debounce(async (q) => {
-  const menu = $("#suggestions");
-  if(!q.trim()){ menu.style.display = "none"; menu.innerHTML = ""; return; }
-  try{
-    const res = await getJSON(API.geocode(q));
-    const results = (res.results || []).slice(0,5);
-    if(!results.length){ menu.style.display = "none"; menu.innerHTML = ""; return; }
-    menu.innerHTML = results.map(r => {
-      const label = [r.name, r.admin1, r.country_code].filter(Boolean).join(", ");
-      return `<li data-lat="${r.latitude}" data-lon="${r.longitude}" data-name="${r.name}" data-country="${r.country_code||""}">${label}</li>`;
-    }).join("");
-    menu.style.display = "block";
-  }catch{
-    menu.style.display = "none"; menu.innerHTML = "";
-  }
-}, 350);
-
-// Event wiring
-$("#searchInput").addEventListener("input", (e)=> suggest(e.target.value));
-$("#suggestions").addEventListener("click", (e)=>{
-  const li = e.target.closest("li"); if(!li) return;
-  const place = {
-    name: li.dataset.name,
-    country: li.dataset.country,
-    latitude: Number(li.dataset.lat),
-    longitude: Number(li.dataset.lon),
-  };
-  $("#searchInput").value = `${place.name}${place.country ? ", "+place.country : ""}`;
-  $("#suggestions").style.display = "none";
-  loadForecast(place);
-});
-
-$("#searchForm").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  const q = $("#searchInput").value.trim();
-  if(!q) return;
-  setStatus("Searching…");
-  try{
-    const res = await getJSON(API.geocode(q));
-    const r = (res.results && res.results[0]);
-    if(!r){ setStatus("Place not found."); return; }
-    await loadForecast({ name:r.name, country:r.country_code, latitude:r.latitude, longitude:r.longitude });
-  }catch{
-    setStatus("Search failed. Try again.");
-  }
-});
-
-$("#unitToggle").addEventListener("change", async (e)=>{
-  state.units = e.target.value;
-  localStorage.setItem("units", state.units);
-  if(state.place) await loadForecast(state.place);
-});
-
-$("#geoBtn").addEventListener("click", ()=>{
-  if(!navigator.geolocation){ setStatus("Geolocation not supported."); return; }
-  setStatus("Locating…");
-  navigator.geolocation.getCurrentPosition(async ({coords})=>{
-    try{
-      let name = "My location", country = "";
-      try{
-        const rev = await getJSON(API.reverse(coords.latitude, coords.longitude));
-        const r = rev?.results?.[0];
-        if(r){ name = r.name; country = r.country_code || ""; }
-      }catch{/* ignore */}
-      loadForecast({ name, country, latitude: coords.latitude, longitude: coords.longitude });
-    }catch{ setStatus("Couldn't get your location."); }
-  }, ()=> setStatus("Permission denied for location."));
-});
-
-document.addEventListener("DOMContentLoaded", ()=>{
-  // Hourly title and hide day picker (we use rolling next 12 hours)
-  const title = document.querySelector(".right .section-title");
-  if (title) title.textContent = "Next 12 hours";
-  const picker = document.getElementById("dayPicker");
-  if (picker) picker.style.display = "none";
-
-  setUnitsUI();
-  $("#searchInput").value = "";
-  loadForecast(state.place);
-});
-```
-
----
 
 ## CSS Architecture
 
-You can keep a **single `styles.css`** or split by sections with `@layer`. Example split:
+You can keep a **single `css-folder`** or split by sections with `@layer`. Example split:
 
 ```
 /css
@@ -496,18 +330,6 @@ You can keep a **single `styles.css`** or split by sections with `@layer`. Examp
 @import url("./hourly.css") layer(sections);
 @import url("./utilities.css") layer(utilities);
 ```
-
-Key tokens (example):
-```css
-:root{
-  --bg:#0c1024; --card:#141a2d; --card-2:#1c2540;
-  --text:#e8eefc; --muted:#9aa3b2; --accent:#5b6cff;
-  --radius-xl:18px; --shadow-1:0 10px 30px rgba(0,0,0,.35);
-  --maxw:1120px; --font-head:"Bricolage Grotesque",system-ui,sans-serif;
-  --font-body:"DM Sans",system-ui,sans-serif;
-}
-```
-
 ---
 
 ## Accessibility
@@ -555,7 +377,7 @@ Key tokens (example):
 - **Daily**
   - 7 tiles; min/max plausible.
 - **Hourly**
-  - Exactly 12 rows, starting from a time ≥ now.
+  - Exactly 24 rows, starting from a time ≥ now.
 - **Responsive**
   - Desktop: two columns; Mobile: single column, readable.
 - **Accessibility**
@@ -566,18 +388,16 @@ Key tokens (example):
 ## Deployment
 
 ### GitHub Pages
-1. Create a repo and push `index.html`, `styles.css`, `app.js`.  
-2. Settings → Pages → Deploy from `main`, folder `/root`.  
+1. Create a repo and push `index.html`, `css`, `app.js`.  
+2. Settings → Pages → Deploy from `main`, folder `css`.  
 3. Open the provided URL.
 
 ### Netlify
-1. Drag‑and‑drop the folder into the Netlify dashboard, or connect the repo.  
+1. Connect the repo.  
 2. Netlify detects a static site automatically.  
 3. Deploy URL appears immediately.
 
-### Vercel
-1. Import project → Framework: **Other** (static).  
-2. Deploy.
+
 
 ---
 
