@@ -1,0 +1,14 @@
+:root {
+    --bg: #0c1024;
+    --card: #141a2d;
+    --card-2: #1c2540;
+    --text: #e8eefc;
+    --muted: #9aa3b2;
+    --accent: #5b6cff;
+    --radius-xl: 18px;
+    --shadow-1: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-2: 0 6px 18px rgba(0, 0, 0, 0.25);
+    --maxw: 1120px;
+    --font-head: "Bricolage Grotesque", system-ui, sans-serif;
+    --font-body: "DM Sans", system-ui, sans-serif;
+}
