@@ -1,0 +1,33 @@
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:16px;
+    padding:16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand__logo {
+    font-size: 22px;
+}
+.brand__name {
+    font-weight: 700;
+    font-family: var(--font-head);
+}
+.header__right {
+    display: flex; 
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.units {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
