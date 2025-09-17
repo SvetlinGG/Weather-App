@@ -6,6 +6,10 @@
     gap:16px;
     padding:16px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-block: 16px;
+    padding-inline: max(20px, calc((100vw - var(--maxw)) / 2 + 20px));
+    width: 100%;
+    box-sizing: border-box;
 }
 .brand {
     display: flex;
