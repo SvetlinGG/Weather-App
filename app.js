@@ -148,6 +148,30 @@ function renderAll(){
   renderHourly();
 }
 
+// -----City Background -----//
+
+function updateHeroBackground(place){
+  const hero = $("#currentCard");
+  if (!hero || !place) return;
+
+  // Търсим град + държава (ако има), плюс ключови думи за градски изглед
+  const query = [place.name, place.country].filter(Boolean).join(", ");
+  const src = `https://source.unsplash.com/1600x900/?${encodeURIComponent(query)},city,skyline,landmark`;
+
+  // Прелоудваме, за да избегнем „примигване“
+  const img = new Image();
+  img.referrerPolicy = "no-referrer";
+  img.onload = () => {
+    hero.style.setProperty("--hero-image", `url('${img.src}')`);
+  };
+  img.onerror = () => {
+    // Ако няма снимка, оставяме дефолтния градиент (никакво действие)
+    console.warn("Hero photo not found for:", query);
+  };
+  img.src = src;
+}
+
+
 // ---------- Data loading ----------
 function loadForecast(place){
   setStatus("Loading…");
@@ -157,6 +181,7 @@ function loadForecast(place){
       state.place = place;
       localStorage.setItem("place", JSON.stringify(place));
       renderAll();
+      updateHeroBackground(place);
       setStatus("");
     })
     .catch(err => {

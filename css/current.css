@@ -1,12 +1,32 @@
 
 
 .card--hero {
-    background: radial-gradient(1200px 600px at -10% -40%, #5b6cff55, transparent 60%),
+    /* background: radial-gradient(1200px 600px at -10% -40%, #5b6cff55, transparent 60%),
                 radial-gradient(1000px 500px at 120% 10%, #8b60ff66, transparent 55%),
                 linear-gradient(135deg,#4a59ff,#6d59ff 60%, #7c59ff);
     padding: 18px 20px 12px; 
     color: #fff; 
-    min-height: 170px;
+    min-height: 170px; */
+
+    position: relative;
+  /* Дефолтен фон, ако няма снимка */
+  --hero-image: radial-gradient(1200px 600px at -10% -40%, #5b6cff55, transparent 60%),
+                radial-gradient(1000px 500px at 120% 10%, #8b60ff66, transparent 55%),
+                linear-gradient(135deg,#4a59ff,#6d59ff 60%, #7c59ff);
+
+  /* 1) тъмен overlay за контраст, 2) снимка ИЛИ дефолтния градиент */
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.55)),
+    var(--hero-image);
+
+  background-size: cover, cover;
+  background-position: center, center;
+  color:#fff; min-height:170px;
+  padding:18px 20px 12px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-1);
+  border:1px solid rgba(255,255,255,.06);
+  transition: background-image .3s ease-in-out, background .3s ease-in-out;
 }
 
 .hero__top {
