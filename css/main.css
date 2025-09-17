@@ -5,6 +5,7 @@
     gap: 10px;
     max-width: 640px;
     margin: 0 auto 20px;
+    
   }
 
   .search__input {
@@ -15,6 +16,7 @@
     padding: 12px 14px;
     font-size: 16px;
     outline: none;
+    
   }
   .suggestions {
     grid-column: 1 / -1;

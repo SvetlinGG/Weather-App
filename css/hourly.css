@@ -4,6 +4,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 6px;
+    
 }
 .hourly__list{
     margin: 0;
@@ -11,6 +12,7 @@
     list-style: none;
     display: grid;
     gap: 8px;
+    
 }
 .hourly__item{
     display: grid;

@@ -93,7 +93,7 @@ img {
     pointer-events: none;  
   }
   
-  .bg-video__media{
+.bg-video__media{
     position: absolute;
     top: 50%; left: 50%;
     min-width: 100%;
@@ -102,23 +102,22 @@ img {
     transform: translate(-50%, -50%);
     object-fit: cover;      
     filter: saturate(1.05) brightness(0.75);
-  }
+}
   
   
-  .bg-video__overlay{
+.bg-video__overlay{
     position: absolute; inset: 0;
     background:
       radial-gradient(1200px 600px at 0% -20%, rgba(0,0,0,.25), transparent 60%),
       linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55));
-  }
-  
-  
-  @media (prefers-reduced-motion: reduce) {
+}
+
+@media (prefers-reduced-motion: reduce) {
     .bg-video__media{ display: none; }
-  }
+}
   
   
-  @media (max-width: 520px){
+@media (max-width: 520px){
     .bg-video__media{ filter: saturate(1.0) brightness(0.7); }
-  }
+}
   
