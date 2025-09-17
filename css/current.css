@@ -9,12 +9,12 @@
     min-height: 170px; */
 
     position: relative;
-  /* Дефолтен фон, ако няма снимка */
+  
     --hero-image: radial-gradient(1200px 600px at -10% -40%, #5b6cff55, transparent 60%),
                   radial-gradient(1000px 500px at 120% 10%, #8b60ff66, transparent 55%),
                   linear-gradient(135deg,#4a59ff,#6d59ff 60%, #7c59ff);
 
-  /* 1) тъмен overlay за контраст, 2) снимка ИЛИ дефолтния градиент */
+ 
   background:
     linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)),
     var(--hero-image);

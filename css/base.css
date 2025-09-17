@@ -84,13 +84,13 @@ img {
     border:1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* === Fullscreen background video === */
+
 .bg-video{
     position: fixed;
     inset: 0;
-    z-index: -2;            /* под целия UI */
+    z-index: -2;            
     overflow: hidden;
-    pointer-events: none;   /* да не блокира кликовете върху UI */
+    pointer-events: none;  
   }
   
   .bg-video__media{
@@ -100,11 +100,11 @@ img {
     min-height: 100%;
     width: auto; height: auto;
     transform: translate(-50%, -50%);
-    object-fit: cover;      /* запълва целия екран */
+    object-fit: cover;      
     filter: saturate(1.05) brightness(0.75);
   }
   
-  /* Тъмен градиент отгоре за контраст на текста */
+  
   .bg-video__overlay{
     position: absolute; inset: 0;
     background:
@@ -112,12 +112,12 @@ img {
       linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55));
   }
   
-  /* Когато потребителят предпочита намалено движение – скриваме видеото */
+  
   @media (prefers-reduced-motion: reduce) {
     .bg-video__media{ display: none; }
   }
   
-  /* По желание: малко по-малка наситеност на мобилни за икономия */
+  
   @media (max-width: 520px){
     .bg-video__media{ filter: saturate(1.0) brightness(0.7); }
   }

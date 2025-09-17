@@ -335,14 +335,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (elSearchInput) elSearchInput.value = "";
   loadForecast(state.place);
 
-  // ---Add Video ---//
+  // ---Add Background Video ---//
 
   const v = document.getElementById("cloudsVideo");
   if (v) {
-    v.playbackRate = 0.6; // 0.5–0.8 е приятен диапазон
+    v.playbackRate = 0.6; 
     const tryPlay = v.play();
     if (tryPlay && typeof tryPlay.catch === "function") {
-      tryPlay.catch(() => { /* някои браузъри изискват потребителско взаимодействие – игнорирай грешката */ });
+      tryPlay.catch(() => {  });
     }
   }
 });
