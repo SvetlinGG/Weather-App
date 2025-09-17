@@ -150,26 +150,58 @@ function renderAll(){
 
 // -----City Background -----//
 
+// Build a nice query string for photos
+function cityQuery(place){
+  return [place?.name, place?.country].filter(Boolean).join(" ");
+}
+
+// Try Unsplash Source first (no API key). Returns Promise<string URL>
+function getUnsplashURL(query){
+  // 'featured' дава по-качествени кадри, 'sig' избягва кеширане
+  const src = `https://source.unsplash.com/featured/1600x900/?${encodeURIComponent(query + ",city,skyline,landmark")}&sig=${Date.now()}`;
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.referrerPolicy = "no-referrer";
+    img.onload = () => resolve(img.src);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+// Fallback: Wikipedia (generator=search + pageimages). Returns Promise<string URL>
+function getWikipediaImageURL(query){
+  const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*` +
+              `&prop=pageimages&piprop=original|thumbnail&pithumbsize=1600` +
+              `&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrlimit=1`;
+  return getJSON(url).then(data => {
+    const pages = data?.query?.pages;
+    if(!pages) throw new Error("No wiki pages");
+    const first = Object.values(pages)[0];
+    const src = first?.original?.source || first?.thumbnail?.source;
+    if(!src) throw new Error("No wiki image");
+    return src;
+  });
+}
+
+// Apply photo to the hero card background
+
 function updateHeroBackground(place){
   const hero = $("#currentCard");
   if (!hero || !place) return;
 
-  // Търсим град + държава (ако има), плюс ключови думи за градски изглед
-  const query = [place.name, place.country].filter(Boolean).join(", ");
-  const src = `https://source.unsplash.com/1600x900/?${encodeURIComponent(query)},city,skyline,landmark`;
-
-  // Прелоудваме, за да избегнем „примигване“
-  const img = new Image();
-  img.referrerPolicy = "no-referrer";
-  img.onload = () => {
-    hero.style.setProperty("--hero-image", `url('${img.src}')`);
-  };
-  img.onerror = () => {
-    // Ако няма снимка, оставяме дефолтния градиент (никакво действие)
-    console.warn("Hero photo not found for:", query);
-  };
-  img.src = src;
+  const q = cityQuery(place);
+  
+  getUnsplashURL(q)
+    .catch(() => getWikipediaImageURL(q))
+    .then(url => {
+      hero.style.setProperty("--hero-image", `url("${url}")`);
+    })
+    .catch(() => {
+      
+      hero.style.removeProperty("--hero-image");
+    });
 }
+
 
 
 // ---------- Data loading ----------
@@ -302,4 +334,15 @@ document.addEventListener("DOMContentLoaded", () => {
   setUnitsUI();
   if (elSearchInput) elSearchInput.value = "";
   loadForecast(state.place);
+
+  // ---Add Video ---//
+
+  const v = document.getElementById("cloudsVideo");
+  if (v) {
+    v.playbackRate = 0.6; // 0.5–0.8 е приятен диапазон
+    const tryPlay = v.play();
+    if (tryPlay && typeof tryPlay.catch === "function") {
+      tryPlay.catch(() => { /* някои браузъри изискват потребителско взаимодействие – игнорирай грешката */ });
+    }
+  }
 });
