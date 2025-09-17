@@ -61,7 +61,7 @@ link: https://weather-app-sgg.netlify.app/
 - **Current card:** city + date + icon + large temperature.  
 - **Stats tiles:** feels like, humidity, wind, precipitation.  
 - **Daily section:** seven compact day tiles.  
-- **Hourly section:** list of the **next 24 future hours** with time, icon, temp.
+- **Hourly section:** list of the **next 12 future hours** with time, icon, temp.
 
 ---
 
@@ -118,7 +118,7 @@ weather-app/
 
 - Iterate `daily.time` → day name (Mon/Tue…), icon, max/min.
 
-### 5) Render Hourly (Next 24 Hours)
+### 5) Render Hourly (Next 12 Hours)
 
 - From `hourly.time`, take the **first 24 timestamps in the future** (≥ now).  
 - Render time, icon, temperature.
@@ -377,7 +377,7 @@ You can keep a **single `css-folder`** or split by sections with `@layer`. Examp
 - **Daily**
   - 7 tiles; min/max plausible.
 - **Hourly**
-  - Exactly 24 rows, starting from a time ≥ now.
+  - Exactly 12 rows, starting from a time ≥ now.
 - **Responsive**
   - Desktop: two columns; Mobile: single column, readable.
 - **Accessibility**

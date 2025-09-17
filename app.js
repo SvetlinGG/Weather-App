@@ -150,14 +150,14 @@ function renderAll(){
 
 // -----City Background -----//
 
-// Build a nice query string for photos
+
 function cityQuery(place){
   return [place?.name, place?.country].filter(Boolean).join(" ");
 }
 
-// Try Unsplash Source first (no API key). Returns Promise<string URL>
+
 function getUnsplashURL(query){
-  // 'featured' дава по-качествени кадри, 'sig' избягва кеширане
+  
   const src = `https://source.unsplash.com/featured/1600x900/?${encodeURIComponent(query + ",city,skyline,landmark")}&sig=${Date.now()}`;
   return new Promise((resolve, reject) => {
     const img = new Image();
