@@ -93,8 +93,17 @@
     color: #fff;
 }
 
-.stat h3{ margin:0; font-size:16px; }
-.stat p { margin:0; font-size:15px; }
+.stat { 
+    margin:0; 
+    font-size:16px;
+
+}
+h3 {
+    padding-top: 20px;
+}
+.stat p {
+    margin:0; 
+    font-size:15px; }
   
 .stats {
     display: grid;
