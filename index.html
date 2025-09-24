@@ -62,11 +62,27 @@
 
         <!-- Stat Tiles Section-->
         <section class="stats" aria-label="Current conditions">
-          <div class="stat card"><h3>Feels Like</h3><p><span id="feelsLike">—</span><span class="unit" id="feelsUnit">°</span></p></div>
-          <div class="stat card"><h3>Humidity</h3><p><span id="humidity">—</span><span class="unit">%</span></p></div>
-          <div class="stat card"><h3>Wind</h3><p><span id="wind">—</span> <span class="unit" id="windUnit">km/h</span></p></div>
-          <div class="stat card"><h3>Precipitation</h3><p><span id="precip">—</span> <span class="unit" id="precipUnit">mm</span></p></div>
+          <div class="stat card">
+            <h3><span class="stat__icon" aria-hidden="true">🌡️</span>Feels Like</h3>
+            <p><span id="feelsLike">—</span><span class="unit" id="feelsUnit">°</span></p>
+          </div>
+        
+          <div class="stat card">
+            <h3><span class="stat__icon" aria-hidden="true">💧</span>Humidity</h3>
+            <p><span id="humidity">—</span><span class="unit">%</span></p>
+          </div>
+        
+          <div class="stat card">
+            <h3><span class="stat__icon" aria-hidden="true">🌬️</span>Wind</h3>
+            <p><span id="wind">—</span> <span class="unit" id="windUnit">km/h</span></p>
+          </div>
+        
+          <div class="stat card">
+            <h3><span class="stat__icon" aria-hidden="true">☔</span>Precipitation</h3>
+            <p><span id="precip">—</span> <span class="unit" id="precipUnit">mm</span></p>
+          </div>
         </section>
+        
 
         <!-- Daily Section-->
         <section class="daily" aria-label="Daily forecast">

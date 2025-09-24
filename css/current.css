@@ -72,11 +72,29 @@
     padding: 7px 10px;
 }
 .stat h3 {
-    font-size: 12px;
-    color: var(--muted);
-    /* font-weight: 600; */
-    margin-bottom: 4px;
-    line-height: 1.15;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.stat__icon{
+    display:inline-grid; place-items:center;
+    width: 28px;
+     height:28px;              
+    font-size:16px; line-height:1;
+    border-radius:10px;
+    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+    box-shadow:
+    inset 0 -1px 0 rgba(0,0,0,.25),
+    0 2px 6px rgba(0,0,0,.25),
+    2px 2px 6px rgba(255,255,255,.10);   /* светла сянка надолу/надясно */
+    color: #fff;                           /* емоджи-то се вижда добре на тъмно */
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,.3));
+}
+  
+  /* Hover effect - light up  */
+.stat:hover .stat__icon{
+    transform: translateY(-3px);
+    transition: transform .15s ease;
 }
 .stat p {
     font-size: 16px;
