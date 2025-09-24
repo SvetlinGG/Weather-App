@@ -252,7 +252,7 @@ const runSuggest = debounce((query) => {
 document.addEventListener("DOMContentLoaded", () => {
   // Update hourly title & hide day picker (12h mode)
   const title = document.querySelector(".right .section-title");
-  if (title) title.textContent = "Next 12 hours";
+  if (title) title.textContent = "Hourly forecast";
   const picker = document.getElementById("dayPicker");
   if (picker) picker.style.display = "none";
 
