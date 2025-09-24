@@ -62,44 +62,50 @@
     font-size: 24px;
     opacity: 0.9;
 }
+:root{
+    --stat-icon-size: 26px;   /* коригирай 22–32px при нужда */
+    --stat-gap: 6px;
+  }
+  
+.stat{
+    display: grid;
+    grid-auto-rows: min-content;
+    justify-items: center;     
+    text-align: center;
+    gap: var(--stat-gap);
+}
+  
 
+.stat::after{
+    content: attr(data-icon);
+    display: grid; place-items: center;
+    width: var(--stat-icon-size);
+    height: var(--stat-icon-size);
+    font-size: calc(var(--stat-icon-size) * .6);
+    line-height: 1;
+    margin-top: var(--stat-gap);
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+    box-shadow:
+    inset 0 -1px 0 rgba(0,0,0,.25),
+    0 2px 6px rgba(0,0,0,.25),
+    2px 2px 6px rgba(255,255,255,.10);
+    color: #fff;
+}
+
+.stat h3{ margin:0; font-size:16px; }
+.stat p { margin:0; font-size:15px; }
+  
 .stats {
     display: grid;
     grid-template-columns: repeat(4,1fr); 
     gap: 7px;
 }
-.stat {
-    padding: 7px 10px;
-}
-.stat h3 {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.stat__icon{
-    display:inline-grid; place-items:center;
-    width: 28px;
-     height:28px;              
-    font-size:16px; line-height:1;
-    border-radius:10px;
-    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
-    box-shadow:
-    inset 0 -1px 0 rgba(0,0,0,.25),
-    0 2px 6px rgba(0,0,0,.25),
-    2px 2px 6px rgba(255,255,255,.10);   /* светла сянка надолу/надясно */
-    color: #fff;                           /* емоджи-то се вижда добре на тъмно */
-    filter: drop-shadow(1px 1px 2px rgba(0,0,0,.3));
-}
-  
-  /* Hover effect - light up  */
-.stat:hover .stat__icon{
-    transform: translateY(-3px);
-    transition: transform .15s ease;
-}
+
 .stat p {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.15;
-}
+} 
 
 @media (max-width:980px){ 
     .stats {
