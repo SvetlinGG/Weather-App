@@ -14,3 +14,36 @@
     --ui-opacity: 0.5;
 }
 
+
+:root{
+    --neon: #00c2ff;
+    --neon-glow: rgba(0, 194, 255, .45);
+}
+
+.search__input,
+.stat.card,
+.daily__item,
+.hourly__item,
+aside.right.card {           
+    border: 1px solid transparent;
+    transition: border-color .16s ease, box-shadow .16s ease;
+    will-change: border-color, box-shadow;
+}
+
+.search__input:is(:hover, :focus-visible),
+.stat.card:is(:hover, :focus-visible),
+.daily__item:is(:hover, :focus-visible),
+.hourly__item:is(:hover, :focus-visible),
+aside.right.card:is(:hover, :focus-visible){
+    border-color: var(--neon);
+    box-shadow:
+    0 0 0 1px var(--neon),
+    0 0 14px 2px var(--neon-glow);
+    outline: none; 
+}
+
+.search__input:focus-visible{
+    box-shadow:
+    0 0 0 2px var(--neon),
+    0 0 18px 3px var(--neon-glow);
+}
