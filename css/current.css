@@ -103,7 +103,7 @@ h3 {
 }
 .stat p {
     margin:0; 
-    font-size:15px; }
+    font-size:12px; }
   
 .stats {
     display: grid;
@@ -111,10 +111,10 @@ h3 {
     gap: 7px;
 }
 
-.stat p {
+/* .stat p {
     font-size: 15px;
     line-height: 1.15;
-} 
+}  */
 
 @media (max-width:980px){ 
     .stats {
