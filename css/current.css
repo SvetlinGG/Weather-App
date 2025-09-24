@@ -9,25 +9,25 @@
     min-height: 170px; */
 
     position: relative;
-  
-    --hero-image: radial-gradient(1200px 600px at -10% -40%, #5b6cff55, transparent 60%),
-                  radial-gradient(1000px 500px at 120% 10%, #8b60ff66, transparent 55%),
-                  linear-gradient(135deg,#4a59ff,#6d59ff 60%, #7c59ff);
 
- 
-  background:
+    --hero-image: radial-gradient(1200px 600px at -10% -40%, #5b6cff55, transparent 60%),
+                    radial-gradient(1000px 500px at 120% 10%, #8b60ff66, transparent 55%),
+                    linear-gradient(135deg,#4a59ff,#6d59ff 60%, #7c59ff);
+
+
+background:
     linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6)),
     var(--hero-image);
 
-  background-size: cover;
-  background-position: center;
-  color: #fff; 
-  min-height: 170px;
-  padding:18px 20px 12px;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-1);
-  border:1px solid rgba(255,255,255,.06);
-  transition: background .3s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    color: #fff; 
+    min-height: 170px;
+    padding:18px 20px 12px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-1);
+    border:1px solid rgba(255,255,255,.06);
+    transition: background .3s ease-in-out;
 }
 
 .hero__top {
@@ -63,7 +63,7 @@
     opacity: 0.9;
 }
 :root{
-    --stat-icon-size: 26px;   /* коригирай 22–32px при нужда */
+    --stat-icon-size: 26px;   
     --stat-gap: 6px;
   }
   
@@ -81,7 +81,7 @@
     display: grid; place-items: center;
     width: var(--stat-icon-size);
     height: var(--stat-icon-size);
-    font-size: calc(var(--stat-icon-size) * .6);
+    font-size: calc(var(--stat-icon-size) * 0.6);
     line-height: 1;
     margin-top: var(--stat-gap);
     border-radius: 10px;

@@ -21,7 +21,7 @@
 }
 
 .search__input,
-.stat.card,
+.stat .card, 
 .daily__item,
 .hourly__item,
 aside.right.card {           
