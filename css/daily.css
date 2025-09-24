@@ -31,6 +31,15 @@
 .daily__temps{
     opacity: 0.9;
 }
+/* Header на Daily секцията: заглавие + селект на един ред */
+.daily__header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:8px;
+}
+  
 
 @media (max-width:980px){ 
     .daily__list{

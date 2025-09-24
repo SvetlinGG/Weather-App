@@ -111,40 +111,54 @@ function renderDaily(){
 
 // NEXT 12 HOURS (rolling from now)
 function renderHourly(){
-  const list = $("#hourlyList");
-  if (!list || !state?.data?.hourly?.time) return;
+  const list   = $("#hourlyList");
+  const hourly = state?.data?.hourly;
+  const daily  = state?.data?.daily;
+  if (!list || !hourly?.time || !daily?.time) { if (list) list.innerHTML = ""; return; }
 
-  const h = state.data.hourly;
-  const now = Date.now();
-  const picked = [];
+  const dayISO   = daily.time[state.selectedDayIndex] || daily.time[0];
+  const isToday  = (new Date(dayISO).toDateString() === new Date().toDateString());
+  const rows     = [];
 
-  for (let i = 0; i < h.time.length && picked.length < 12; i++) {
-    const ts = new Date(h.time[i]).getTime();
-    if (ts >= now) {
-      picked.push({ time: h.time[i], code: h.weather_code[i], temp: h.temperature_2m[i] });
+  
+  for (let i = 0; i < hourly.time.length; i++) {
+    const ts = hourly.time[i];
+    if (ts.startsWith(dayISO)) {
+      rows.push({ time: ts, code: hourly.weather_code[i], temp: hourly.temperature_2m[i] });
     }
   }
-  // Fallback: if no future slots exist, show the last 12 records
-  if (picked.length === 0) {
-    const n = h.time.length;
-    for (let i = Math.max(0, n - 12); i < n; i++) {
-      picked.push({ time: h.time[i], code: h.weather_code[i], temp: h.temperature_2m[i] });
+  if (!rows.length) { list.innerHTML = ""; return; }
+
+  
+  let picked = [];
+  if (isToday) {
+    const now = Date.now();
+    const future = rows.filter(r => new Date(r.time).getTime() >= now);
+    picked = future.slice(0, 12);
+    if (picked.length < 12) {
+      const missing = 12 - picked.length;
+      const earlier = rows.filter(r => new Date(r.time).getTime() < now).slice(-missing);
+      picked = earlier.concat(picked);
     }
+  } else {
+    picked = rows.slice(0, 12);
   }
 
   list.innerHTML = picked.map(it => `
     <li class="hourly__item">
-      <span class="hourly__time">${fmtTime(it.time)}</span>
+      <span class="hourly__time">${new Date(it.time).toLocaleTimeString([], { hour:"numeric" })}</span>
       <span class="hourly__icon" aria-hidden="true">${iconFor(it.code)}</span>
       <span class="hourly__temp">${Math.round(it.temp)}°</span>
     </li>
   `).join("");
 }
 
+
 function renderAll(){
   setUnitsUI();
   renderCurrent();
   renderDaily();
+  populateDayPicker();
   renderHourly();
 }
 
@@ -250,6 +264,19 @@ const runSuggest = debounce((query) => {
 
 // ---------- Init & Events ----------
 document.addEventListener("DOMContentLoaded", () => {
+  const dayPicker = $("#dayPicker");
+  if (dayPicker && !dayPicker.__bound) {
+    dayPicker.addEventListener("change", (e) => {
+      state.selectedDayIndex = Number(e.target.value) || 0;
+      renderHourly();
+    });
+    dayPicker.__bound = true;
+  }
+
+  // първо зареждане
+  loadForecast(state.place);
+
+
   // Update hourly title & hide day picker (12h mode)
   const title = document.querySelector(".right .section-title");
   if (title) title.textContent = "Hourly forecast";
@@ -346,3 +373,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+function populateDayPicker(){
+  const picker = $("#dayPicker");
+  const d = state?.data?.daily;
+  if (!picker || !d?.time) return;
+
+  const todayISO = new Date().toISOString().slice(0,10);
+  picker.innerHTML = d.time.map((iso, i) => {
+    const isToday = iso === todayISO;
+    const label = new Date(iso).toLocaleDateString(undefined, {
+      weekday: "long", month: "short", day: "numeric"
+    });
+    return `<option value="${i}">${isToday ? "Today — " : ""}${label}</option>`;
+  }).join("");
+
+  picker.value = String(state.selectedDayIndex ?? 0);
+  picker.style.display = ""; 
+}
+
