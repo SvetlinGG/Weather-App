@@ -57,6 +57,6 @@
     .daily__temps{ font-size: 14px; }
 }
 @media (max-width:520px){ 
-    .daily__list{grid-template-columns: repeat(2,1fr);
+    .daily__list{grid-template-columns: repeat(3,1fr);
     }
 }
