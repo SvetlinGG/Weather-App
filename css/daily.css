@@ -41,10 +41,20 @@
 }
   
 
-@media (max-width:980px){ 
+@media (max-width:600px){ 
     .daily__list{
-        grid-template-columns: repeat(4,1fr);
+        display: grid;
+        grid-template-columns: repeat(3,minmax(0, 1fr));
+        gap: 10px;
     } 
+    .daily__item{
+        width: 100%;
+        text-align: center;        
+    }
+    
+      /* Optional: tighten content so 3-up fits nicely */
+    .daily__day{ font-size: 12px; }
+    .daily__temps{ font-size: 14px; }
 }
 @media (max-width:520px){ 
     .daily__list{grid-template-columns: repeat(2,1fr);
