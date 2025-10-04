@@ -5,9 +5,11 @@
     color: var(--muted);
 }
 .footer{
+    display: flex;
+    justify-content: center;
     max-width: var(--maxw);
     margin: 24px auto 36px;
-    padding: 0 20px;
+    padding: 30px 20px;
     color:
     var(--muted)}
 .is-hidden{
